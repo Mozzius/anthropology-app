@@ -14,9 +14,12 @@ const styles = StyleSheet.create({
   label: {},
   input: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: "#ccc",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: 3,
-    marginTop: 15,
+    marginTop: 10,
+    backgroundColor: "#fff",
   },
 });
 

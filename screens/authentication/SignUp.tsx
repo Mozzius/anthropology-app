@@ -7,6 +7,7 @@ import { AuthStackParamList } from ".";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Screen from "../../components/Screen";
+import Error from "../../components/Error";
 
 export interface SignUpProps {
   route: RouteProp<AuthStackParamList, "Sign Up">;
@@ -23,7 +24,7 @@ const SignUp: React.FC<SignUpProps> = ({
 
   return (
     <Screen>
-      {error && <Text>View</Text>}
+      <Error message={error} />
       <TextInput label="Full Name" onChangeText={setName} value={name} />
       <Button
         title="Next"

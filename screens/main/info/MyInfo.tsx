@@ -34,6 +34,12 @@ const MyInfo: React.FC<MyInfoProps> = ({ navigation }) => {
         <Text>{user.email}</Text>
       </View>
       <Button
+        title="Sign out"
+        onPress={() => {
+          firebase.auth().signOut();
+        }}
+      />
+      <Button
         title="Reset Password"
         onPress={() => {
           firebase.auth().sendPasswordResetEmail(user.email);

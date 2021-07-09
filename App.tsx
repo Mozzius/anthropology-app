@@ -7,7 +7,7 @@ import "./firebase";
 import Main from "./screens/main";
 import Auth from "./screens/authentication";
 
-LogBox.ignoreLogs(["Setting a timer"]);
+LogBox?.ignoreLogs(["Setting a timer"]);
 
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 

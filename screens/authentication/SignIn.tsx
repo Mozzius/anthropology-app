@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SafeAreaView, Text } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import firebase from "firebase/app";
 
@@ -7,6 +7,14 @@ import { AuthStackParamList } from ".";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Screen from "../../components/Screen";
+import Error from "../../components/Error";
+
+const styles = StyleSheet.create({
+  forgot: {
+    textAlign: "center",
+    marginTop: 25,
+  },
+});
 
 export interface SignInProps {
   navigation: StackNavigationProp<AuthStackParamList, "Sign In">;
@@ -20,7 +28,7 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
 
   return (
     <Screen>
-      {error && <Text>{error}</Text>}
+      <Error message={error} />
       <TextInput
         label="Kent Email"
         keyboardType="email-address"
@@ -44,7 +52,6 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
             .signInWithEmailAndPassword(email, password)
             .then(creds => {
               setLoading(false);
-              console.log(creds);
             })
             .catch(err => {
               setLoading(false);
@@ -68,6 +75,12 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
             });
         }}
       />
+      <Text
+        style={styles.forgot}
+        onPress={() => navigation.navigate("Forgot Password", { email })}
+      >
+        Forgotten password?
+      </Text>
     </Screen>
   );
 };
