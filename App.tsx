@@ -1,19 +1,43 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { LogBox } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import firebase from "firebase/app";
+import "./firebase";
 
-export default function App() {
+import Main from "./screens/main";
+import Auth from "./screens/authentication";
+
+LogBox.ignoreLogs(["Setting a timer"]);
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+export type AuthUser = {
+  uid: string;
+  email: string;
+};
+
+const App: React.FC = () => {
+  const [user, setUser] = React.useState<AuthUser | null>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  // log in
+  React.useEffect(() => {
+    const unsub = firebase.auth().onAuthStateChanged(newUser => {
+      setLoading(false);
+      setUser(newUser);
+    });
+    return unsub;
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <NavigationContainer>
+      {loading ? null : user !== null ? (
+        <Main user={user} />
+      ) : (
+        <Auth setUser={setUser} />
+      )}
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
