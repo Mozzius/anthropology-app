@@ -6,10 +6,12 @@ import firebase from "firebase/app";
 import HomeScreen from "./home";
 import StampsScreen from "./stamps";
 import InfoScreen from "./info";
+import EventsScreen from "./events";
 import { User, UserContext } from "./User";
 
 export type TabParamList = {
   Home: undefined;
+  Events: undefined;
   Stamps: undefined;
   Info: undefined;
 };
@@ -47,6 +49,15 @@ const Main: React.FC<MainProps> = ({ user: authUser }) => {
           options={{
             tabBarIcon: ({ size, color }) => (
               <MaterialCommunityIcons name="home" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="Events"
+          component={EventsScreen}
+          options={{
+            tabBarIcon: ({ size, color }) => (
+              <MaterialCommunityIcons name="calendar-multiple" size={size} color={color} />
             ),
           }}
         />

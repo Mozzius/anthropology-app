@@ -9,11 +9,11 @@ import Button from "../../../components/Button";
 
 const style = StyleSheet.create({});
 
-export interface FAQsProps {
-  navigation: StackNavigationProp<InfoStackParamList, "FAQs">;
+export interface AskProps {
+  navigation: StackNavigationProp<InfoStackParamList, "Ask">;
 }
 
-const FAQs: React.FC<FAQsProps> = ({ navigation }) => {
+const Ask: React.FC<AskProps> = ({ navigation }) => {
   const user = React.useContext(UserContext);
 
   React.useEffect(() => {}, []);
@@ -30,4 +30,4 @@ const FAQs: React.FC<FAQsProps> = ({ navigation }) => {
   );
 };
 
-export default FAQs;
+export default Ask;

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import firebase from "firebase/app";
 
-import { StackParamList } from ".";
+import { InfoStackParamList } from ".";
 import { UserContext } from "../User";
 import Screen from "../../../components/Screen";
 import Button from "../../../components/Button";
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 export interface MyInfoProps {
-  navigation: StackNavigationProp<StackParamList, "My Info">;
+  navigation: StackNavigationProp<InfoStackParamList, "My Info">;
 }
 
 const MyInfo: React.FC<MyInfoProps> = ({ navigation }) => {

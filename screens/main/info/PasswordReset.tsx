@@ -2,11 +2,11 @@ import * as React from "react";
 import { Text } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import { StackParamList } from ".";
+import { InfoStackParamList } from ".";
 import Screen from "../../../components/Screen";
 
 export interface PasswordResetProps {
-  navigation: StackNavigationProp<StackParamList, "Password Reset">;
+  navigation: StackNavigationProp<InfoStackParamList, "Password Reset">;
 }
 
 const PasswordReset: React.FC<PasswordResetProps> = ({ navigation }) => {

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { LogBox } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import firebase from "firebase/app";
 import "./firebase";
 
@@ -30,7 +30,12 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={{
+        ...DefaultTheme,
+        colors: { ...DefaultTheme.colors, primary: "#a9d9e3" },
+      }}
+    >
       {loading ? null : user !== null ? (
         <Main user={user} />
       ) : (

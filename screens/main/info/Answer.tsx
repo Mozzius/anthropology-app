@@ -1,19 +1,21 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+
 
 import { InfoStackParamList } from ".";
 import Screen from "../../../components/Screen";
 import { UserContext } from "../User";
 import Button from "../../../components/Button";
-
 const style = StyleSheet.create({});
 
-export interface FAQsProps {
-  navigation: StackNavigationProp<InfoStackParamList, "FAQs">;
+export interface AnswerProps {
+  navigation: StackNavigationProp<InfoStackParamList, "Answer">;
+  route: RouteProp<InfoStackParamList, "Answer">;
 }
 
-const FAQs: React.FC<FAQsProps> = ({ navigation }) => {
+const Answer: React.FC<AnswerProps> = ({ navigation }) => {
   const user = React.useContext(UserContext);
 
   React.useEffect(() => {}, []);
@@ -21,13 +23,13 @@ const FAQs: React.FC<FAQsProps> = ({ navigation }) => {
   return (
     <Screen>
       <Button
-        title="Ask a question"
+        title="Answer a question"
         onPress={() => {
-          navigation.navigate("Ask");
+          navigation.navigate("Answer");
         }}
       />
     </Screen>
   );
 };
 
-export default FAQs;
+export default Answer;

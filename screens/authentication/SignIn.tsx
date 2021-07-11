@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
 import firebase from "firebase/app";
 
 import { AuthStackParamList } from ".";
@@ -17,11 +18,16 @@ const styles = StyleSheet.create({
 });
 
 export interface SignInProps {
+  route: RouteProp<AuthStackParamList, "Sign Up">;
   navigation: StackNavigationProp<AuthStackParamList, "Sign In">;
 }
 
-const SignIn: React.FC<SignInProps> = ({ navigation }) => {
-  const [email, setEmail] = React.useState("");
+const SignIn: React.FC<SignInProps> = ({
+  navigation,
+  route: {
+    params: { email },
+  },
+}) => {
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -29,12 +35,6 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
   return (
     <Screen>
       <Error message={error} />
-      <TextInput
-        label="Kent Email"
-        keyboardType="email-address"
-        onChangeText={setEmail}
-        value={email}
-      />
       <TextInput
         label="Password"
         secureTextEntry
@@ -57,7 +57,7 @@ const SignIn: React.FC<SignInProps> = ({ navigation }) => {
               setLoading(false);
               switch (err.code) {
                 case "auth/user-not-found":
-                  navigation.navigate("Sign Up", { email, password });
+                  setError("No account with this email address was found");
                   break;
                 case "auth/invalid-email":
                   setError("Your email is invalid");
