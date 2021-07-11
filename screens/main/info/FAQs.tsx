@@ -59,11 +59,6 @@ const FAQs: React.FC<FAQsProps> = ({ navigation }) => {
             navigation.navigate("Ask");
           }}
         />
-        {questions
-          .filter(q => q.answer && q.answerAuthor)
-          .map(question => (
-            <QuestionCard key={question.id} question={question} />
-          ))}
         {user.committee &&
           questions
             .filter(q => !(q.answer && q.answerAuthor))
@@ -80,6 +75,11 @@ const FAQs: React.FC<FAQsProps> = ({ navigation }) => {
                 />
               </Card>
             ))}
+        {questions
+          .filter(q => q.answer && q.answerAuthor)
+          .map(question => (
+            <QuestionCard key={question.id} question={question} />
+          ))}
       </ScrollView>
     </Screen>
   );
