@@ -9,6 +9,7 @@ import Screen from "../../../components/Screen";
 import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import { format } from "date-fns";
+import { RouteProp } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   label: {
@@ -18,16 +19,40 @@ const styles = StyleSheet.create({
 });
 
 export interface EventsProps {
-  navigation: StackNavigationProp<InfoStackParamList, "Events">;
+  navigation:
+    | StackNavigationProp<InfoStackParamList, "Add Event">
+    | StackNavigationProp<InfoStackParamList, "Edit Event">;
+  route:
+    | RouteProp<InfoStackParamList, "Add Event">
+    | RouteProp<InfoStackParamList, "Edit Event">;
 }
 
-const Events: React.FC<EventsProps> = ({ navigation }) => {
+const Events: React.FC<EventsProps> = ({
+  navigation,
+  route: {
+    params: { event = {} },
+  },
+}) => {
   const [mode, setMode] = React.useState<null | "date" | "time">(null);
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [location, setLocation] = React.useState("");
-  const [date, setDate] = React.useState<Date>(new Date());
-  const [time, setTime] = React.useState<Date>(new Date());
+  const [name, setName] = React.useState(event.name ?? "");
+  const [description, setDescription] = React.useState(event.description ?? "");
+  const [location, setLocation] = React.useState(event.location ?? "");
+  const [date, setDate] = React.useState<Date>(() => {
+    const combined = new Date(event.date ?? Date.now());
+    return new Date(
+      combined.valueOf() -
+        (combined.getHours() * 3600000 +
+          combined.getMinutes() * 60000 +
+          combined.getSeconds() * 1000 +
+          combined.getMilliseconds())
+    );
+  });
+  const [time, setTime] = React.useState<Date>(() => {
+    const combined = new Date(event.date ?? Date.now());
+    return new Date(
+      combined.getHours() * 3600000 + combined.getMinutes() * 60000
+    );
+  });
 
   const datetime =
     date.valueOf() -
@@ -60,24 +85,40 @@ const Events: React.FC<EventsProps> = ({ navigation }) => {
           <DateTimePicker
             mode={mode}
             value={mode === "date" ? date : time}
+            minimumDate={new Date()}
             onChange={(evt, selected) => {
-              console.log(evt);
-              console.log(selected);
               setMode(m => (Platform.OS === "ios" ? m : null));
-              mode === "date" ? setDate(selected) : setTime(selected);
+              if (selected)
+                mode === "date" ? setDate(selected) : setTime(selected);
             }}
           />
         )}
         <Button
           title="Save"
           onPress={() => {
-            firebase
-              .database()
-              .ref("/events")
-              .push({ name, description, location, date: datetime });
+            if (event.id) {
+              firebase
+                .database()
+                .ref(`/events/${event.id}`)
+                .set({ name, description, location, date: datetime });
+            } else {
+              firebase
+                .database()
+                .ref("/events")
+                .push({ name, description, location, date: datetime });
+            }
             navigation.navigate("Events");
           }}
         />
+        {event.id && (
+          <Button
+            title="Delete Event"
+            onPress={() => {
+              firebase.database().ref(`/events/${event.id}`).remove();
+              navigation.navigate("Events");
+            }}
+          />
+        )}
       </KeyboardAvoidingView>
     </Screen>
   );

@@ -9,6 +9,7 @@ import Button from "../../../components/Button";
 import useFirebase from "../../../hooks/useFirebase";
 import Card from "../../../components/Card";
 import { format } from "date-fns";
+import { ScrollView } from "react-native";
 
 const styles = StyleSheet.create({
   bold: {
@@ -22,7 +23,7 @@ export type Event = {
   name: string;
   description: string;
   location: string;
-  date: string;
+  date: number;
   time: string;
 };
 
@@ -36,23 +37,39 @@ const Events: React.FC<EventsProps> = ({ navigation }) => {
 
   return (
     <Screen>
-      {events.map(event => (
-        <Card title={event.name} key={event.id}>
-          <Text>{event.description}</Text>
-          <Text style={styles.bold}>When?</Text>
-          <Text>{format(new Date(event.date), "MMMM do, h:mm aaaaa'm'")}</Text>
-          <Text style={styles.bold}>Where?</Text>
-          <Text>{event.location}</Text>
-        </Card>
-      ))}
-      {user.committee && (
-        <Button
-          title="add an event"
-          onPress={() => {
-            navigation.navigate("Add Event");
-          }}
-        />
-      )}
+      <ScrollView>
+        {events
+          .sort((a, b) => a.date - b.date)
+          .map(event => (
+            <Card
+              title={event.name}
+              key={event.id}
+              onPress={
+                user.committee
+                  ? () => {
+                      navigation.navigate("Edit Event", { event });
+                    }
+                  : undefined
+              }
+            >
+              <Text>{event.description}</Text>
+              <Text style={styles.bold}>When?</Text>
+              <Text>
+                {format(new Date(event.date), "MMMM do, h:mm aaaaa'm'")}
+              </Text>
+              <Text style={styles.bold}>Where?</Text>
+              <Text>{event.location}</Text>
+            </Card>
+          ))}
+        {user.committee && (
+          <Button
+            title="add an event"
+            onPress={() => {
+              navigation.navigate("Add Event", { event: undefined });
+            }}
+          />
+        )}
+      </ScrollView>
     </Screen>
   );
 };

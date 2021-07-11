@@ -31,10 +31,6 @@ const App: React.FC = () => {
 
   return (
     <NavigationContainer
-      theme={{
-        ...DefaultTheme,
-        colors: { ...DefaultTheme.colors, primary: "#a9d9e3" },
-      }}
     >
       {loading ? null : user !== null ? (
         <Main user={user} />

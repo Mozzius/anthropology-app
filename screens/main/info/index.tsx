@@ -18,7 +18,7 @@ export type InfoStackParamList = {
   "My Info": undefined;
   "Password Reset": undefined;
   Ask: undefined;
-  Answer: { question: string; id: string };
+  Answer: { id: string };
   Users: undefined;
 };
 

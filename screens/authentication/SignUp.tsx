@@ -33,11 +33,13 @@ const SignUp: React.FC<SignUpProps> = ({
           label="Password"
           onChangeText={setPassword}
           value={password}
+          secureTextEntry
         />
         <TextInput
           label="Repeat Password"
           onChangeText={setRepeat}
           value={repeat}
+          secureTextEntry
         />
         <Button
           title="Next"
