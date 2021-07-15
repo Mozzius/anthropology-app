@@ -5,6 +5,7 @@ import { UserContext } from "../User";
 import Info from "./Info";
 import FAQs from "./FAQs";
 import Contact from "./Contact";
+import Messages from "./Messages";
 import MyInfo from "./MyInfo";
 import PasswordReset from "./PasswordReset";
 import Ask from "./Ask";
@@ -14,7 +15,8 @@ import Users from "./Users";
 export type InfoStackParamList = {
   Info: undefined;
   FAQs: undefined;
-  Contact: undefined;
+  Contact: { name?: string; id: string };
+  Messages: undefined;
   "My Info": undefined;
   "Password Reset": undefined;
   Ask: undefined;
@@ -35,7 +37,12 @@ const InfoStack: React.FC = () => {
         component={FAQs}
         options={{ title: "Frequently Asked Questions" }}
       />
-      <Stack.Screen name="Contact" component={Contact} />
+      <Stack.Screen
+        name="Contact"
+        component={Contact}
+        options={{ title: "Contact the Committee" }}
+      />
+      <Stack.Screen name="Messages" component={Messages} />
       <Stack.Screen name="My Info" component={MyInfo} />
       <Stack.Screen name="Password Reset" component={PasswordReset} />
       <Stack.Screen name="Ask" component={Ask} />

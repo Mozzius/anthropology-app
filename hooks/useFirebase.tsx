@@ -1,8 +1,8 @@
 import * as React from "react";
 import firebase from "firebase/app";
 
-export const useFirebaseValue = <T,>(ref) => {
-  const [data, setData] = React.useState<T | undefined>();
+export const useFirebaseValue = <T,>(ref: string, initialValue?: any) => {
+  const [data, setData] = React.useState<T | undefined>(initialValue);
 
   React.useEffect(() => {
     const stampsRef = firebase.database().ref(ref);
@@ -12,7 +12,7 @@ export const useFirebaseValue = <T,>(ref) => {
         setData(value);
       } else {
         console.error(`${ref} returned null`);
-        setData(undefined);
+        setData(initialValue);
       }
     };
     stampsRef.on("value", getStamps);
@@ -22,7 +22,7 @@ export const useFirebaseValue = <T,>(ref) => {
   return data;
 };
 
-const useFirebase = <T extends { id: string }>(ref) => {
+const useFirebase = <T extends { id: string }>(ref: string) => {
   const [data, setData] = React.useState<T[]>([]);
 
   React.useEffect(() => {

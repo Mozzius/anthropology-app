@@ -5,7 +5,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import useFirebase, { useFirebaseValue } from "../../../hooks/useFirebase";
 import { InfoStackParamList } from ".";
 import Screen from "../../../components/Screen";
-import { UserContext } from "../User";
+import { User, UserContext } from "../User";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 
@@ -29,8 +29,9 @@ interface QuestionCardProps {
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
-  const { name = "" } =
-    useFirebaseValue(`/users/${question.answerAuthor}`) ?? {};
+  const { name } = useFirebaseValue<User>(`/users/${question.answerAuthor}`, {
+    name: "",
+  });
 
   return (
     <Card key={question.id} title={question.question}>

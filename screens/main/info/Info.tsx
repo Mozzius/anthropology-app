@@ -19,7 +19,17 @@ const InfoHome: React.FC<InfoHomeProps> = ({ navigation }) => {
         title="Frequently Asked Questions"
         onPress={() => navigation.navigate("FAQs")}
       />
-      <Card title="Contact" onPress={() => navigation.navigate("Contact")} />
+      {user.committee ? (
+        <Card
+          title="Messages"
+          onPress={() => navigation.navigate("Messages")}
+        />
+      ) : (
+        <Card
+          title="Contact the Committee"
+          onPress={() => navigation.navigate("Contact", { id: user.uid })}
+        />
+      )}
       <Card title="My Info" onPress={() => navigation.navigate("My Info")} />
       {user.committee && (
         <Card title="Users" onPress={() => navigation.navigate("Users")} />

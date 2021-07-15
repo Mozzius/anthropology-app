@@ -8,9 +8,7 @@ import {
 } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 15,
-  },
+  container: {},
   label: {},
   input: {
     borderWidth: 1,
@@ -18,26 +16,37 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 3,
-    marginTop: 10,
     backgroundColor: "#fff",
   },
 });
 
 export interface TextInputProps extends ReactNativeTextInputProps {
-  label: string;
+  label?: string;
+  style?: any;
+  containerStyle?: any;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
   label,
-  style: propStyle,
-
+  style,
+  containerStyle,
   ...props
 }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+    <View
+      style={StyleSheet.flatten([
+        containerStyle,
+        styles.container,
+        label && { marginTop: 15 },
+      ])}
+    >
+      {label && <Text style={styles.label}>{label}</Text>}
       <ReactNativeTextInput
-        style={StyleSheet.flatten([propStyle, styles.input])}
+        style={StyleSheet.flatten([
+          style,
+          styles.input,
+          label && { marginTop: 10 },
+        ])}
         {...props}
       />
     </View>
